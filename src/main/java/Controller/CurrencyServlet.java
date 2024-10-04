@@ -1,7 +1,7 @@
 package Controller;
 
-import DataBase.DB;
-import Model.Currency;
+import Dao.DB;
+import Entities.Currency;
 import com.google.gson.Gson;
 
 import javax.servlet.ServletException;
@@ -92,6 +92,7 @@ public class CurrencyServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        System.out.println("добавление валюты");
         EncodingFilter.setupEncoding(req, resp);
         PrintWriter pw = resp.getWriter();
         String json;
@@ -120,7 +121,11 @@ public class CurrencyServlet extends HttpServlet {
                 pw.flush();
                 return;
             }
-            Currency currency = new Currency(0,currCode,currName,currSign);
+            Currency currency = new Currency.Builder()
+                    .setCode(currCode)
+                    .setName(currName)
+                    .setSign(currSign)
+                    .build();
             DB.addCurrency(currency);
             currency = DB.getCurrency(currCode);
             json = gson.toJson(currency);

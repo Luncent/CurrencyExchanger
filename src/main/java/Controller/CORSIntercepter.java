@@ -10,9 +10,9 @@ import java.util.HashSet;
 
 @WebFilter(asyncSupported = true, urlPatterns = { "/*" })
 public class CORSIntercepter implements Filter {
-    //add urls
+      //add urls
     private static final HashSet allowedOrigins = new HashSet(Arrays.asList(new String[]{
-
+        "http://192.168.0.102:8080", "http://192.168.169.117:8080"
     }));
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {

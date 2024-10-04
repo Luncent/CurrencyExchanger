@@ -1,12 +1,12 @@
-package DataBase;
+package Dao;
 
 import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import Model.Currency;
-import Model.ExchangeRate;
+import Entities.Currency;
+import Entities.ExchangeRate;
 
 public class DB {
     private static final String URL = "jdbc:sqlite:../webapps/CurrencyExchanger-1.0/WEB-INF/classes/database.db";

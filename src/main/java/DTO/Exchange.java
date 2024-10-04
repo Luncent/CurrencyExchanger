@@ -1,8 +1,8 @@
 package DTO;
 
-import DataBase.DB;
-import Model.Currency;
-import Model.ExchangeRate;
+import Dao.DB;
+import Entities.Currency;
+import Entities.ExchangeRate;
 
 import java.math.BigDecimal;
 import java.math.MathContext;

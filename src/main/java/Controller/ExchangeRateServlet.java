@@ -1,8 +1,8 @@
 package Controller;
 
-import Model.Currency;
+import Entities.Currency;
 import DTO.Exchange;
-import Model.ExchangeRate;
+import Entities.ExchangeRate;
 import Utils.Validation;
 import com.google.gson.Gson;
 

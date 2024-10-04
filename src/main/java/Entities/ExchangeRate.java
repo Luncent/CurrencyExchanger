@@ -1,6 +1,6 @@
-package Model;
+package Entities;
 
-import DataBase.DB;
+import Dao.DB;
 
 import java.math.BigDecimal;
 import java.sql.SQLException;
@@ -11,6 +11,50 @@ public class ExchangeRate {
     private BigDecimal rate;
     private Currency baseCurrency;
     private Currency targetCurrency;
+
+    public ExchangeRate(int id, BigDecimal rate,Currency baseCurrency, Currency targetCurrency) {
+        this.id = id;
+        this.targetCurrency = targetCurrency;
+        this.baseCurrency = baseCurrency;
+        this.rate = rate;
+    }
+
+    private ExchangeRate(Builder builder){
+        this.id = builder.id;
+        this.rate = builder.rate;
+        this.baseCurrency = builder.baseCurrency;
+        this.targetCurrency = builder.targetCurrency;
+    }
+
+    public static class Builder{
+        private int id;
+        private BigDecimal rate;
+        private Currency baseCurrency;
+        private Currency targetCurrency;
+
+        public Builder setId(int id){
+            this.id = id;
+            return this;
+        }
+        public Builder setRate(BigDecimal rate){
+            this.rate = rate;
+            return this;
+        }
+        public Builder setBaseCurrency(Currency baseCurrency){
+            this.baseCurrency = baseCurrency;
+            return this;
+        }
+        public Builder setTargetCurrency(Currency targetCurrency){
+            this.targetCurrency = targetCurrency;
+            return this;
+        }
+        public ExchangeRate build(){
+            if(baseCurrency == null || targetCurrency == null || rate ==null){
+                throw new IllegalArgumentException("both currencies and rate must be initialized");
+            }
+            return new ExchangeRate(this);
+        }
+    }
 
     public int chkMock(){
         if(id == -1){
@@ -26,9 +70,19 @@ public class ExchangeRate {
     public static ExchangeRate createMockObj(int type){
         switch(type){
             case 1://
-                return new ExchangeRate(-1,null,null,null);
+                return new ExchangeRate.Builder()
+                        .setId(-1)
+                        .setRate(BigDecimal.valueOf(-1))
+                        .setBaseCurrency(Currency.createMockObj(1))
+                        .setTargetCurrency(Currency.createMockObj(1))
+                        .build();
             case 2:
-                return new ExchangeRate(-2,null,null,null);
+                return new ExchangeRate.Builder()
+                        .setId(-2)
+                        .setRate(BigDecimal.valueOf(-2))
+                        .setBaseCurrency(Currency.createMockObj(2))
+                        .setTargetCurrency(Currency.createMockObj(2))
+                        .build();
             default:
                 return null;
         }
@@ -49,11 +103,10 @@ public class ExchangeRate {
                 ", targetCurrency=" + targetCurrency +
                 '}';
     }
-    public ExchangeRate(int id, BigDecimal rate, Currency baseCurrency, Currency targetCurrency) {
-        this.id = id;
-        this.rate = rate;
-        this.baseCurrency = baseCurrency;
-        this.targetCurrency = targetCurrency;
+
+
+    public ExchangeRate(){
+
     }
     public BigDecimal getRate() {
         return rate;
@@ -93,13 +146,4 @@ public class ExchangeRate {
     public static ExchangeRate updateExRate(String codeCombo, BigDecimal newRate) throws SQLException{
         return DB.updateExchangeRate(codeCombo,newRate);
     }
-/*    public static void main(String[] args){
-        try{
-            addExRate("USD","BY", BigDecimal.valueOf(3.7023));
-            //System.out.println(er);
-        }
-        catch(Exception e){
-            System.out.println(e.getMessage());
-        }
-    }*/
 }
