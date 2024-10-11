@@ -4,6 +4,7 @@ import Entities.Currency;
 import Entities.ExchangeRate;
 import org.junit.jupiter.api.Test;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -12,7 +13,7 @@ import java.util.List;
 public class ExchangeRateDaoTest {
     private static final String URL = "jdbc:sqlite:D:/JavaWorkSpace/CurrencyExchanger/target/classes/database.db";
     @Test
-    public void select() throws SQLException {
+    public void select() throws SQLException, InstantiationException, IllegalAccessException {
         try(Connection conn = DriverManager.getConnection(URL)){
             ExchangeRateDao exrateDao = new ExchangeRateDao(conn);
             List<ExchangeRate> exchangeRates = exrateDao.selectAll();
@@ -28,19 +29,12 @@ public class ExchangeRateDaoTest {
         }
     }
     @Test
-    public void insert() throws SQLException {
+    public void update() throws SQLException, InstantiationException, IllegalAccessException {
         try(Connection conn = DriverManager.getConnection(URL)){
-            CurrencyDao dao = new CurrencyDao(conn);
-            Currency c1 = new Currency.Builder()
-                    .setName("Name")
-                    .setSign("cogde")
-                    .setCode("sds")
-                    .build();
-            System.out.println(c1);
             ExchangeRateDao erdao = new ExchangeRateDao(conn);
-            //int ret = erdao.insert(new ExchangeRate(BigDecimal.valueOf(0.94), c1,c2));
-            //int ret = erdao.insert(new ExchangeRate(BigDecimal.valueOf(0.94),null,currency2));
-            //System.out.println(ret);
+            ExchangeRate er = erdao.getByID(3);
+            er.setRate(BigDecimal.valueOf(2.24));
+            erdao.update(er);
         }
     }
 }

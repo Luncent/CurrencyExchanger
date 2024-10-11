@@ -3,7 +3,6 @@ package Entities;
 import Annotations.Column;
 import Annotations.Id;
 import Annotations.Table;
-import Dao.DB;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -74,15 +73,7 @@ public class Currency {
             return this;
         }
 
-        /**
-         *
-         * @throws IllegalArgumentException if code||name||sign is null
-         * @return Currency
-         */
         public Currency build(){
-            if(code==null || name == null || sign == null){
-                throw new IllegalArgumentException("код, имя и знак валюты обязательны к заполению");
-            }
             return new Currency(this);
         }
     }
@@ -119,44 +110,15 @@ public class Currency {
         this.sign = sign;
     }
 
-    public static List<Currency> getAllCurrencies() throws SQLException {
-        return DB.getCurrencies();
+    public static Currency createMockObj() {
+        return new Currency.Builder()
+                .setId(0)
+                .setSign("-1")
+                .setCode("-11")
+                .setName("-1")
+                .build();
     }
-    public static Currency getCertCurrency(String CurrencyCode) throws SQLException{
-        return DB.getCurrency(CurrencyCode);
-    }
-    public static int addCurrency(Currency newCurrency) throws SQLException{
-        return DB.addCurrency(newCurrency);
-    }
-    public int chkMock(){
-        if(id == -1){
-            return 1;
-        }
-        if(id == -2){
-            return 2;
-        }
-        else{
-            return 0;
-        }
-    }
-    public static Currency createMockObj(int type){
-        switch(type){
-            case 1://
-                return new Currency.Builder()
-                        .setId(-1)
-                        .setSign("-1")
-                        .setCode("-1")
-                        .setName("-1")
-                        .build();
-            case 2:
-                return new Currency.Builder()
-                        .setId(-2)
-                        .setSign("-2")
-                        .setCode("-22")
-                        .setName("-2")
-                        .build();
-            default:
-                return null;
-        }
+    public static boolean checkMock(Currency currency){
+        return currency.getCode().equals("-11");
     }
 }

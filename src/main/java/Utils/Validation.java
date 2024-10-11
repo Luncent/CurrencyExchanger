@@ -12,4 +12,13 @@ public class Validation {
             return false;
         }
     }
+    public static boolean isDouble(String rateToCheck){
+        try{
+            Double rate = Double.valueOf(rateToCheck);
+            return true;
+        }
+        catch(Exception e){
+            return false;
+        }
+    }
 }

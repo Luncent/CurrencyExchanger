@@ -5,13 +5,14 @@ import Entities.Currency;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class CurrencyDaoTest {
 
-    private static final String URL = "jdbc:sqlite:D:/JavaWorkSpace/CurrencyExchanger/target/classes/database.db";
+    private static final String URL = "jdbc:sqlite:D:/JavaWorkSpace/CurrencyExchanger/src/database.db";
     @Test
-    public void select() throws SQLException {
+    public void select() throws SQLException, InstantiationException, IllegalAccessException {
         try(Connection conn = DriverManager.getConnection(URL)){
             CurrencyDao dao = new CurrencyDao(conn);
             List<Currency> currencies = dao.selectAll();
@@ -20,14 +21,17 @@ public class CurrencyDaoTest {
     }
     @Test
     public void getByCode() throws SQLException {
+        Long startTime = System.nanoTime();
         try(Connection conn = DriverManager.getConnection(URL)){
+            Long endTime = System.nanoTime();
+            System.out.println(endTime-startTime);
             CurrencyDao dao = new CurrencyDao(conn);
             Currency currency = dao.getByCode("AUD");
             System.out.println(currency);
         }
     }
     @Test
-    public void insert() throws SQLException {
+    public void insert() throws SQLException, IllegalAccessException {
         try(Connection conn = DriverManager.getConnection(URL)){
             CurrencyDao dao = new CurrencyDao(conn);
             Currency currency = new Currency.Builder()

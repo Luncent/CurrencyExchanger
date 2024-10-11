@@ -31,18 +31,15 @@ public class CRUDImpl<T> implements CRUD<T>{
                 tableAnnot.name() != null ? tableAnnot.name() : clazz.getSimpleName();
     }
 
-    private T fillEntity(Field[] fields, ResultSet rs) throws SQLException, InstantiationException, IllegalAccessException {
-        T entity = (T)clazz.newInstance();
+    private void fillEntity(Field[] fields, ResultSet rs, T entity) throws SQLException, InstantiationException, IllegalAccessException {
         for (int i = 0; i < fields.length; i++) {
             fields[i].setAccessible(true);
-            if(fields[i].getType() == BigDecimal.class){
-                fields[i].set(entity,rs.getBigDecimal(i+1));
-            }
-            else {
+            if (fields[i].getType() == BigDecimal.class) {
+                fields[i].set(entity, rs.getBigDecimal(i + 1));
+            } else {
                 fields[i].set(entity, rs.getObject(i + 1));
             }
         }
-        return entity;
     }
 
     @Override
@@ -57,7 +54,9 @@ public class CRUDImpl<T> implements CRUD<T>{
 
             Field[] fields = clazz.getDeclaredFields();
             while(rs.next()) {
-                entities.add(fillEntity(fields,rs));
+                T entity = (T)clazz.newInstance();
+                fillEntity(fields,rs,entity);
+                entities.add(entity);
             }
             return entities;
         }
@@ -93,6 +92,8 @@ public class CRUDImpl<T> implements CRUD<T>{
 
     @Override
     public T getByID(int id) throws SQLException, InstantiationException, IllegalAccessException {
+        T entity = (T)clazz.newInstance();
+
         String tableName = getTableName();
 
         Field[] fields = clazz.getDeclaredFields();
@@ -102,10 +103,14 @@ public class CRUDImpl<T> implements CRUD<T>{
         String key = fields[0].getAnnotation(Column.class) == null ? fields[0].getName()
                 :  fields[0].getAnnotation(Column.class).name();
         String SQL = String.format(SELECT_BYID,tableName,key);
+        System.out.println(SQL);
         try(PreparedStatement stmt = conn.prepareStatement(SQL)){
             stmt.setObject(1,id);
             ResultSet rs = stmt.executeQuery();
-            return fillEntity(fields,rs);
+            if(rs.next()){
+                fillEntity(fields,rs,entity);
+            }
+            return entity;
         }
     }
 
