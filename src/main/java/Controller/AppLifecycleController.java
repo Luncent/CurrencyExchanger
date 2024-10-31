@@ -19,7 +19,7 @@ import java.util.concurrent.BlockingQueue;
 
 @WebListener
 public class AppLifecycleController implements ServletContextListener {
-    private static final String URL = "jdbc:sqlite:../webapps/database.db";
+    private static final String URL = "jdbc:sqlite:../webapps/CurrencyExchanger-1.0/WEB-INF/classes/database.db";
     private List<Connection> realConnections = new ArrayList<>();
     BlockingQueue<Connection> connectionPool = new ArrayBlockingQueue<>(10);
     @Override
@@ -61,6 +61,7 @@ public class AppLifecycleController implements ServletContextListener {
                 connectionPool.put(proxyConnection);
             }
         } catch (Exception e) {
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
     }

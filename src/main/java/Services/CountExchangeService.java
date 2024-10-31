@@ -67,7 +67,7 @@ public class CountExchangeService {
                     .setTargetCurrency(targetCurrency)
                     .setRate(rate)
                     .setAmount(BigDecimal.valueOf(amount))
-                    .setConvertedAmount(convertedAmount)
+                    .setConvertedAmount(convertedAmount.setScale(2,RoundingMode.HALF_UP))
                     .build();
 
             conn.commit();

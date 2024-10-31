@@ -30,7 +30,6 @@ public class getCurrencyServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        EncodingFilter.setupEncoding(req, resp);
         PrintWriter pw = resp.getWriter();
         String code = (""+req.getPathInfo()).trim().substring(1);
         String jsonAnswer;

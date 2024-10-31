@@ -11,8 +11,6 @@ import com.google.gson.Gson;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -37,7 +35,6 @@ public class ExchangeRateServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        EncodingFilter.setupEncoding(req, resp);
         PrintWriter pw = resp.getWriter();
         String codeCombo = (""+req.getPathInfo()).trim().substring(1);
         String jsonAnswer;
@@ -71,7 +68,6 @@ public class ExchangeRateServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        EncodingFilter.setupEncoding(req, resp);
         PrintWriter pw = resp.getWriter();
         String jsonAnswer;
 
@@ -82,7 +78,6 @@ public class ExchangeRateServlet extends HttpServlet {
     }
 
     protected void doPatch(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        EncodingFilter.setupEncoding(req, resp);
         PrintWriter pw = resp.getWriter();
         String codeCombo = (""+req.getPathInfo()).trim().substring(1);
         String jsonAnswer;

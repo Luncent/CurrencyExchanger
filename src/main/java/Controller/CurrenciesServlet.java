@@ -32,7 +32,6 @@ public class CurrenciesServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        EncodingFilter.setupEncoding(req, resp);
         PrintWriter pw = resp.getWriter();
 
         List<Currency> currencies = null;
@@ -55,7 +54,6 @@ public class CurrenciesServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        EncodingFilter.setupEncoding(req, resp);
         PrintWriter pw = resp.getWriter();
         String jsonAnswer;
 
