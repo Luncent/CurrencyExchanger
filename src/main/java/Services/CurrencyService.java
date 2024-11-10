@@ -31,7 +31,7 @@ public class CurrencyService {
     }
 
     public Currency getByCode(String code) throws SQLException, InterruptedException, NotFoundException {
-        try(Connection conn = connectionPool.take()){ 
+        try(Connection conn = connectionPool.take()){ // you don't close the connections everywhere, thus will run out of them.
             CurrencyDao dao = new CurrencyDao(conn);
             Currency currency = dao.getByCode(code);
             if(currency.getId()==0){ // dao should return Optional.empty for not found case
@@ -76,7 +76,7 @@ public class CurrencyService {
         }
         finally {
             try {
-                conn.close(); // why to close, if you use connection pool?
+                conn.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }

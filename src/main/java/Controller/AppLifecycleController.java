@@ -54,7 +54,8 @@ public class AppLifecycleController implements ServletContextListener {
                         (proxy,method,args)-> {
                             if (method.getName().equals("close")) {
                                 System.out.println("connection closing");
-                                connectionPool.put(conn); // I asssume it should delete, not put?
+                                connectionPool.put(conn); // got it, it returns a connection to a pool when you close. 
+                                // would propose to document the usage idea where it's not straightforward
                                 System.out.println( "connection pool size="+connectionPool.size());
                             } else {
                                 return method.invoke(conn, args);
