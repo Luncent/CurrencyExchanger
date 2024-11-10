@@ -24,6 +24,7 @@ public class AppLifecycleController implements ServletContextListener {
     BlockingQueue<Connection> connectionPool = new ArrayBlockingQueue<>(10);
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
+        // use a logger library instead of system.out.println, e.g. sl4fj
         System.out.println("________________________________________________________________");
         createConnectionPool();
         CountExchangeService countExchangeService = new CountExchangeService(connectionPool,URL);
@@ -42,7 +43,9 @@ public class AppLifecycleController implements ServletContextListener {
             Class.forName("org.sqlite.JDBC");
             Class clazz = Connection.class;
 
-            for(int i = 0 ; i<10; i++){
+            // in real life this connection pooling lib is usually used https://www.baeldung.com/hikaricp
+
+            for(int i = 0 ; i<10; i++){ // 10 is a magic number you use twice. Create a constant
                 Connection conn = DriverManager.getConnection(URL);
                 realConnections.add(conn);
 
@@ -51,17 +54,17 @@ public class AppLifecycleController implements ServletContextListener {
                         (proxy,method,args)-> {
                             if (method.getName().equals("close")) {
                                 System.out.println("connection closing");
-                                connectionPool.put(conn);
+                                connectionPool.put(conn); // I asssume it should delete, not put?
                                 System.out.println( "connection pool size="+connectionPool.size());
                             } else {
                                 return method.invoke(conn, args);
                             }
-                            return null;
+                            return null; // would raise to if block
                         });
                 connectionPool.put(proxyConnection);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(); // use logger.error()
             throw new RuntimeException(e);
         }
     }

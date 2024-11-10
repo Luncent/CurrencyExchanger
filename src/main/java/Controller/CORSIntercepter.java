@@ -29,6 +29,9 @@ public class CORSIntercepter implements Filter {
         String requestOrigin = request.getHeader("Origin");
         if(isAllowedOrigin(requestOrigin)) {
             // Authorize the origin, all headers, and all methods
+
+            //((HttpServletResponse) servletResponse) doing the type casting many times, could do once
+
             ((HttpServletResponse) servletResponse).addHeader("Access-Control-Allow-Origin", requestOrigin);
             ((HttpServletResponse) servletResponse).addHeader("Access-Control-Allow-Headers", "*");
             ((HttpServletResponse) servletResponse).addHeader("Access-Control-Allow-Methods",
@@ -42,11 +45,13 @@ public class CORSIntercepter implements Filter {
                 return;
             }
         }
+        // why no ex is thrown if origin is not allowed?
+
         // pass the request along the filter chain
         filterChain.doFilter(request, servletResponse);
     }
     private boolean isAllowedOrigin(String origin){
-        if(allowedOrigins.contains(origin)) return true;
+        if(allowedOrigins.contains(origin)) return true; // can be simplified to return allowedOrigins.contains(origin)
         else return false;
     }
 }
