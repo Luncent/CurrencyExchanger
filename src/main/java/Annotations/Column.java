@@ -1,4 +1,6 @@
-package Annotations;
+package Annotations; 
+// package names usually start from a non-capital letter. Also the root package usually relates to your project somehow,
+// e.g. by.ccyexchange (then this pack gonna be e.g. by.ccyexchange.annotations)
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

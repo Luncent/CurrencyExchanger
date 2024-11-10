@@ -7,10 +7,10 @@ import Annotations.Table;
 import java.sql.SQLException;
 import java.util.List;
 
-@Table(name="Currencies")
-public class Currency {
+@Table(name="Currencies") // table names are usually in small letters
+public class Currency { // you can use java records from java 17
     @Id
-    @Column(name="ID")
+    @Column(name="ID") // per naming same, small letters, _ as delimiter usually
     private int id;
     @Column(name="Code")
     private String code;

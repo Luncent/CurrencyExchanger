@@ -13,6 +13,7 @@ public class CurrencyDao extends CRUDImpl<Currency>{
         super(Currency.class, connection);
     }
 
+    // you could just omit this methods, impl. in super class, just in case.
     @Override
     public List<Currency> selectAll() throws SQLException, InstantiationException, IllegalAccessException {
         return super.selectAll();

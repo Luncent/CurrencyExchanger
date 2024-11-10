@@ -36,7 +36,7 @@ public class ExchangeRateServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         PrintWriter pw = resp.getWriter();
-        String codeCombo = (""+req.getPathInfo()).trim().substring(1);
+        String codeCombo = (""+req.getPathInfo()).trim().substring(1); // may be there are better ways to get path params?
         String jsonAnswer;
         if (codeCombo.isEmpty()) {
             resp.setStatus(400);
@@ -71,7 +71,7 @@ public class ExchangeRateServlet extends HttpServlet {
         PrintWriter pw = resp.getWriter();
         String jsonAnswer;
 
-        String method = (""+req.getParameter("_method")).trim();
+        String method = (""+req.getParameter("_method")).trim(); // this piece looks unclear. Is this doPost needed at all?
         if(method.equals("PATCH")){
             doPatch(req, resp);
         }
@@ -87,7 +87,8 @@ public class ExchangeRateServlet extends HttpServlet {
         System.out.println(rateStr);
         if (Validation.isDouble(rateStr)) {
             System.out.println(rateStr);
-            rate = BigDecimal.valueOf(Double.valueOf(rateStr));
+            rate = BigDecimal.valueOf(Double.valueOf(rateStr)); // why to use double conversion before digdecimal creation? 
+            // use a string constructor to avoid possible precision issues
         } else {
             resp.setStatus(400);
             jsonAnswer = "{\"message\":\"wrong number format\"}";

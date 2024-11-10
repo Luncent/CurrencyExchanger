@@ -51,6 +51,7 @@ public class CountExchangeService {
             } else if ((rate = erDao.getByCodeCombo(targetCurCode,baseCurCode).getRate())!=null){
                 rate = BigDecimal.ONE.divide(rate,mathContext);
                 convertedAmount = rate.multiply(BigDecimal.valueOf(amount),mathContext);
+                // for readability better to simplify this if-elses, e.g. via early returns within each if.
             }
             else {
                 BigDecimal usd_baseRate = erDao.getByCodeCombo("USD",baseCurCode).getRate();
