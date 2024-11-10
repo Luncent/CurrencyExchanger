@@ -16,7 +16,7 @@ import java.io.PrintWriter;
 import java.sql.SQLException;
 
 @WebServlet("/currency/*")
-public class getCurrencyServlet extends HttpServlet {
+public class getCurrencyServlet extends HttpServlet { // class name should start from capital letter
     Gson gson;
     private CurrencyService currencyService;
 

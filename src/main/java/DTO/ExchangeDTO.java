@@ -8,7 +8,7 @@ import java.math.RoundingMode;
 import java.sql.SQLException;
 
 public class ExchangeDTO {
-    Currency baseCurrency;
+    Currency baseCurrency; // privite modifier missing. Also can be a java record.
     Currency targetCurrency;
     BigDecimal rate;
     BigDecimal amount;

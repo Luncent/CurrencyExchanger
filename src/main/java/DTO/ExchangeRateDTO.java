@@ -5,7 +5,7 @@ import Entities.Currency;
 import java.math.BigDecimal;
 
 public class ExchangeRateDTO {
-    public int id;
+    public int id; // public is not a recommended choice, can be easily amended in a wrong place.
     public BigDecimal rate;
     public Currency baseCurrency;
     public Currency targetCurrency;

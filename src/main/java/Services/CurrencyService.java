@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.concurrent.BlockingQueue;
 
 public class CurrencyService {
-    private final String URL;
+    private final String URL; // unused?
     private final BlockingQueue<Connection> connectionPool;
     public CurrencyService(BlockingQueue<Connection> connectionPool, String URL){
         this.connectionPool = connectionPool;
@@ -31,10 +31,10 @@ public class CurrencyService {
     }
 
     public Currency getByCode(String code) throws SQLException, InterruptedException, NotFoundException {
-        try(Connection conn = connectionPool.take()){
+        try(Connection conn = connectionPool.take()){ 
             CurrencyDao dao = new CurrencyDao(conn);
             Currency currency = dao.getByCode(code);
-            if(currency.getId()==0){
+            if(currency.getId()==0){ // dao should return Optional.empty for not found case
                 throw new NotFoundException("currency not found");
             }
             else{
@@ -52,13 +52,16 @@ public class CurrencyService {
 
         Connection conn = connectionPool.take();
         try{
+            // ideally Service just carries out the business logic. 
+            // But for you to have > 1 operation in trx may make sense to leave as-is.
+            // I would make dao methods static then not to re-create dao objects all the time.
             conn.setAutoCommit(false);
             CurrencyDao dao = new CurrencyDao(conn);
             if(!Currency.checkMock(dao.getByCode(newCurrency.getCode()))){
                 throw new RowExists("currency exists");
             }
             dao.insert(newCurrency);
-            Currency currency = dao.getByCode(newCurrency.getCode());
+            Currency currency = dao.getByCode(newCurrency.getCode()); // will this work with commit in next line?
             conn.commit();
             return currency;
         }
@@ -73,7 +76,7 @@ public class CurrencyService {
         }
         finally {
             try {
-                conn.close();
+                conn.close(); // why to close, if you use connection pool?
             } catch (SQLException e) {
                 e.printStackTrace();
             }
