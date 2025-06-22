@@ -133,6 +133,7 @@ $(document).ready(function() {
         const pair = $('#edit-exchange-rate-modal .modal-title').text().replace('Edit ', '').replace(' Exchange Rate', '');
         const exchangeRate = $('#edit-exchange-rate-modal #exchange-rate-input').val();
 
+        console.log(`Pair: ${pair}, Exchange Rate: ${exchangeRate}`); // Отладочный вывод
         // set changed values to the table row
         const row = $(`tr:contains(${pair})`);
         row.find('td:eq(1)').text(exchangeRate);
@@ -142,7 +143,7 @@ $(document).ready(function() {
             url: `${host}/exchangeRate/${pair}`,
             type: "PATCH",
             contentType : "application/x-www-form-urlencoded",
-            data: `rate=${exchangeRate}`,
+            data: $.param({ rate: exchangeRate }),
             success: function() {
 
             },
