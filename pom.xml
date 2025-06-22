@@ -44,7 +44,7 @@
                 <version>3.4.0</version>
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
-                    <outputDirectory>D:\TomCat\apache-tomcat-8.5.94-windows-x64\apache-tomcat-8.5.94\webapps</outputDirectory>
+                    <outputDirectory>E:\Dima\TomCat\apache-tomcat-8.5.94-windows-x64\apache-tomcat-8.5.94\webapps</outputDirectory>
                 </configuration>
             </plugin>
         </plugins>

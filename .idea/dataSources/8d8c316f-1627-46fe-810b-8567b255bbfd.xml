@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataSource name="database.db">
-  <database-model serializer="dbm" dbms="SQLITE" family-id="SQLITE" format-version="4.52">
+  <database-model serializer="dbm" dbms="SQLITE" family-id="SQLITE" format-version="4.53">
     <root id="1">
       <ServerVersion>3.45.1</ServerVersion>
     </root>
@@ -1600,20 +1600,20 @@
     </table>
     <column id="559" parent="555" name="ID">
       <AutoIncrement>1</AutoIncrement>
-      <DasType>INTEGER|0s</DasType>
       <Position>1</Position>
+      <StoredType>INTEGER|0s</StoredType>
     </column>
     <column id="560" parent="555" name="Code">
-      <DasType>Varchar|0s</DasType>
       <Position>2</Position>
+      <StoredType>Varchar|0s</StoredType>
     </column>
     <column id="561" parent="555" name="FullName">
-      <DasType>Varchar|0s</DasType>
       <Position>3</Position>
+      <StoredType>Varchar|0s</StoredType>
     </column>
     <column id="562" parent="555" name="Sign">
-      <DasType>Varchar|0s</DasType>
       <Position>4</Position>
+      <StoredType>Varchar|0s</StoredType>
     </column>
     <index id="563" parent="555" name="sqlite_autoindex_Currencies_1">
       <ColNames>Code</ColNames>
@@ -1630,20 +1630,20 @@
     </key>
     <column id="566" parent="556" name="ID">
       <AutoIncrement>1</AutoIncrement>
-      <DasType>INTEGER|0s</DasType>
       <Position>1</Position>
+      <StoredType>INTEGER|0s</StoredType>
     </column>
     <column id="567" parent="556" name="BaseCurrencyId">
-      <DasType>INT|0s</DasType>
       <Position>2</Position>
+      <StoredType>INT|0s</StoredType>
     </column>
     <column id="568" parent="556" name="TargetCurrencyId">
-      <DasType>INT|0s</DasType>
       <Position>3</Position>
+      <StoredType>INT|0s</StoredType>
     </column>
     <column id="569" parent="556" name="Rate">
-      <DasType>DECIMAL(6)|0s</DasType>
       <Position>4</Position>
+      <StoredType>DECIMAL(6)|0s</StoredType>
     </column>
     <foreign-key id="570" parent="556">
       <ColNames>BaseCurrencyId</ColNames>
@@ -1671,24 +1671,24 @@ TargetCurrencyId</ColNames>
       <UnderlyingIndexName>sqlite_autoindex_ExchangeRates_1</UnderlyingIndexName>
     </key>
     <column id="575" parent="557" name="type">
-      <DasType>TEXT|0s</DasType>
       <Position>1</Position>
+      <StoredType>TEXT|0s</StoredType>
     </column>
     <column id="576" parent="557" name="name">
-      <DasType>TEXT|0s</DasType>
       <Position>2</Position>
+      <StoredType>TEXT|0s</StoredType>
     </column>
     <column id="577" parent="557" name="tbl_name">
-      <DasType>TEXT|0s</DasType>
       <Position>3</Position>
+      <StoredType>TEXT|0s</StoredType>
     </column>
     <column id="578" parent="557" name="rootpage">
-      <DasType>INT|0s</DasType>
       <Position>4</Position>
+      <StoredType>INT|0s</StoredType>
     </column>
     <column id="579" parent="557" name="sql">
-      <DasType>TEXT|0s</DasType>
       <Position>5</Position>
+      <StoredType>TEXT|0s</StoredType>
     </column>
     <column id="580" parent="558" name="name">
       <Position>1</Position>
