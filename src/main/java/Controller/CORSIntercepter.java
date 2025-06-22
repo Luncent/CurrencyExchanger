@@ -46,7 +46,8 @@ public class CORSIntercepter implements Filter {
         filterChain.doFilter(request, servletResponse);
     }
     private boolean isAllowedOrigin(String origin){
-        if(allowedOrigins.contains(origin)) return true;
-        else return false;
+        /*if(allowedOrigins.contains(origin)) return true;
+        else return false;*/
+        return true;
     }
 }
