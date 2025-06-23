@@ -12,7 +12,7 @@ public class EncodingFilter implements Filter {
     public void init(FilterConfig filterConfig) throws ServletException {}
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        System.out.println("hello from filter");
+        System.out.println("hello from request/response format changing filter");
         HttpServletResponse resp = (HttpServletResponse) servletResponse;
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         resp.addHeader("Content-type","application/json;charset=UTF-8");

@@ -51,7 +51,7 @@ public class AppLifecycleController implements ServletContextListener {
                         (proxy,method,args)-> {
                             if (method.getName().equals("close")) {
                                 System.out.println("connection closing");
-                                connectionPool.put(conn);
+                                connectionPool.put((Connection)proxy);
                                 System.out.println( "connection pool size="+connectionPool.size());
                             } else {
                                 return method.invoke(conn, args);
