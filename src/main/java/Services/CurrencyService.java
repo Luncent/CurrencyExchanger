@@ -1,5 +1,6 @@
 package Services;
 
+import Dao.ConnectionPoolManager;
 import Dao.CurrencyDao;
 import Entities.Currency;
 import Exceptions.MyException;
@@ -13,14 +14,15 @@ import java.util.concurrent.BlockingQueue;
 
 public class CurrencyService {
     private final String URL;
-    private final BlockingQueue<Connection> connectionPool;
-    public CurrencyService(BlockingQueue<Connection> connectionPool, String URL){
-        this.connectionPool = connectionPool;
+    private final ConnectionPoolManager connectionPoolManager;
+    public CurrencyService(ConnectionPoolManager connectionPoolManager, String URL){
+        this.connectionPoolManager = connectionPoolManager;
         this.URL = URL;
     }
 
     public List<Currency> getAll() throws SQLException, InterruptedException, InstantiationException, IllegalAccessException {
-        try(Connection conn = connectionPool.take()){
+        try(Connection conn = connectionPoolManager.getConnection()){
+            System.out.println("currency checking autocommit: "+conn.getAutoCommit());
             CurrencyDao dao = new CurrencyDao(conn);
             return dao.selectAll();
         }
@@ -31,7 +33,7 @@ public class CurrencyService {
     }
 
     public Currency getByCode(String code) throws SQLException, InterruptedException, NotFoundException {
-        try(Connection conn = connectionPool.take()){
+        try(Connection conn = connectionPoolManager.getConnection()){
             CurrencyDao dao = new CurrencyDao(conn);
             Currency currency = dao.getByCode(code);
             if(currency.getId()==0){
@@ -50,7 +52,7 @@ public class CurrencyService {
     public Currency add(Currency newCurrency) throws InterruptedException,
             SQLException, IllegalAccessException, MyException, RowExists {
 
-        Connection conn = connectionPool.take();
+        Connection conn = connectionPoolManager.getConnection();
         try{
             conn.setAutoCommit(false);
             CurrencyDao dao = new CurrencyDao(conn);

@@ -23,7 +23,7 @@ public class ServicesTest {
     List<Connection> realConnections = new ArrayList<>();
     BlockingQueue<Connection> connectionPool = new ArrayBlockingQueue<>(10);
     String URL = "jdbc:sqlite:D:/JavaWorkSpace/CurrencyExchanger/target/classes/database.db";
-    private void initConnectionPool(){
+   /* private void initConnectionPool(){
         try {
             //старая версия
             Class.forName("org.sqlite.JDBC");
@@ -162,5 +162,5 @@ public class ServicesTest {
             System.out.println(ex.getMessage());
         }
         closeConnections();
-    }
+    }*/
 }

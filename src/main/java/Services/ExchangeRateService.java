@@ -1,6 +1,7 @@
 package Services;
 
 import DTO.ExchangeRateDTO;
+import Dao.ConnectionPoolManager;
 import Dao.CurrencyDao;
 import Dao.ExchangeRateDao;
 import Entities.Currency;
@@ -18,15 +19,15 @@ import java.util.concurrent.BlockingQueue;
 
 public class ExchangeRateService {
     private final String URL;
-    private final BlockingQueue<Connection> connectionPool;
-    public ExchangeRateService(BlockingQueue<Connection> connectionPool, String URL){
-        this.connectionPool = connectionPool;
+    private final ConnectionPoolManager connectionPoolManager;
+    public ExchangeRateService(ConnectionPoolManager connectionPoolManager, String URL){
+        this.connectionPoolManager = connectionPoolManager;
         this.URL = URL;
     }
 
     public List<ExchangeRateDTO> getAll() throws InterruptedException, SQLException, InstantiationException, IllegalAccessException {
         List<ExchangeRateDTO> exchangeRateDTOS = new ArrayList<>();
-        Connection conn = connectionPool.take();
+        Connection conn = connectionPoolManager.getConnection();
         try{
             ExchangeRateDao exchangeRateDao = new ExchangeRateDao(conn);
             CurrencyDao currencyDao = new CurrencyDao(conn);
@@ -64,7 +65,7 @@ public class ExchangeRateService {
 
     public ExchangeRateDTO getByCurrenciesCodes(String baseCode, String targetCode) throws InterruptedException, SQLException,
             InstantiationException, IllegalAccessException, NotFoundException {
-        Connection conn = connectionPool.take();
+        Connection conn = connectionPoolManager.getConnection();
         try {
             conn.setAutoCommit(false);
             ExchangeRateDao exchangeRateDao = new ExchangeRateDao(conn);
@@ -106,7 +107,7 @@ public class ExchangeRateService {
 
     public ExchangeRateDTO add(String baseCode, String targetCode, BigDecimal rate) throws InterruptedException,
             MyException, SQLException, RowExists, NotFoundException, IllegalAccessException {
-        Connection conn = connectionPool.take();
+        Connection conn = connectionPoolManager.getConnection();
         try{
             conn.setAutoCommit(false);
             CurrencyDao currencyDao = new CurrencyDao(conn);
@@ -160,10 +161,9 @@ public class ExchangeRateService {
 
     public ExchangeRateDTO update(String baseCode, String targetCode, BigDecimal newRate) throws InterruptedException,
             MyException, SQLException, IllegalAccessException, NotFoundException {
-        Connection conn = connectionPool.take();
+        Connection conn = connectionPoolManager.getConnection();
         try{
             conn.setAutoCommit(false);
-
             if(newRate.compareTo(BigDecimal.ZERO)==-1){
                 throw new MyException("rate cant be less than 0");
             }

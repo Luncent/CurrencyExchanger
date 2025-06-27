@@ -6,8 +6,63 @@
 
     <display-name>CurrencyExchanger</display-name>
 
-   <!-- <welcome-file-list>
-        <welcome-file>index.html</welcome-file>
-    </welcome-file-list>-->
+    <!--<servlet>
+        <servlet-name>CurrensiesServlet</servlet-name>
+        <servlet-class>Controller.CurrenciesServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>CurrensiesServlet</servlet-name>
+        <url-pattern>/currencies</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet>
+        <servlet-name>ExchangeRateServlet</servlet-name>
+        <servlet-class>Controller.ExchangeRateServlet</servlet-class>
+        <load-on-startup>2</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ExchangeRateServlet</servlet-name>
+        <url-pattern>/exchangeRate/*</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet>
+        <servlet-name>ExchangeRatesServlet</servlet-name>
+        <servlet-class>Controller.ExchangeRatesServlet</servlet-class>
+        <load-on-startup>3</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ExchangeRatesServlet</servlet-name>
+        <url-pattern>/exchangeRates</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet>
+        <servlet-name>getCurrencyServlet</servlet-name>
+        <servlet-class>Controller.getCurrencyServlet</servlet-class>
+        <load-on-startup>4</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>getCurrencyServlet</servlet-name>
+        <url-pattern>/currency/*</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet>
+        <servlet-name>getExchangeServlet</servlet-name>
+        <servlet-class>Controller.getExchangeServlet</servlet-class>
+        <load-on-startup>5</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>getExchangeServlet</servlet-name>
+        <url-pattern>/exchange</url-pattern>
+    </servlet-mapping>-->
 
 </web-app>

@@ -1,5 +1,6 @@
 package Controller;
 
+import Dao.ConnectionPoolManager;
 import Services.CountExchangeService;
 import Services.CurrencyService;
 import Services.ExchangeRateService;
@@ -20,15 +21,19 @@ import java.util.concurrent.BlockingQueue;
 @WebListener
 public class AppLifecycleController implements ServletContextListener {
     private static final String URL = "jdbc:sqlite:../webapps/CurrencyExchanger-1.0/WEB-INF/classes/database.db";
-    private List<Connection> realConnections = new ArrayList<>();
-    BlockingQueue<Connection> connectionPool = new ArrayBlockingQueue<>(10);
+    private static final int POOL_SIZE = 10;
+    private ConnectionPoolManager connectionPoolManager;
+
+    /*private List<Connection> realConnections = new ArrayList<>();
+    private BlockingQueue<Connection> connectionPool = new ArrayBlockingQueue<>(10);*/
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
         System.out.println("________________________________________________________________");
-        createConnectionPool();
-        CountExchangeService countExchangeService = new CountExchangeService(connectionPool,URL);
-        CurrencyService currencyService = new CurrencyService(connectionPool,URL);
-        ExchangeRateService exchangeRateService = new ExchangeRateService(connectionPool,URL);
+        connectionPoolManager = new ConnectionPoolManager(POOL_SIZE, URL);
+        //createConnectionPool();
+        CountExchangeService countExchangeService = new CountExchangeService(connectionPoolManager,URL);
+        CurrencyService currencyService = new CurrencyService(connectionPoolManager,URL);
+        ExchangeRateService exchangeRateService = new ExchangeRateService(connectionPoolManager,URL);
 
         ServletContext context = servletContextEvent.getServletContext();
         context.setAttribute("countExchangeService",countExchangeService);
@@ -36,7 +41,7 @@ public class AppLifecycleController implements ServletContextListener {
         context.setAttribute("exchangeRateService",exchangeRateService);
     }
 
-    private void createConnectionPool(){
+    /*private void createConnectionPool(){
         try {
             //старая версия
             Class.forName("org.sqlite.JDBC");
@@ -64,11 +69,11 @@ public class AppLifecycleController implements ServletContextListener {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
-    }
+    }*/
 
     @Override
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
-        for(Connection conn : realConnections){
+        /*for(Connection conn : realConnections){
             try {
                 if(!conn.isClosed()) {
                     conn.close();
@@ -76,6 +81,7 @@ public class AppLifecycleController implements ServletContextListener {
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
-        }
+        }*/
+        connectionPoolManager.closeConnections();
     }
 }

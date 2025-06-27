@@ -1,6 +1,7 @@
 package Services;
 
 import DTO.ExchangeDTO;
+import Dao.ConnectionPoolManager;
 import Dao.CurrencyDao;
 import Dao.ExchangeRateDao;
 import Entities.Currency;
@@ -16,14 +17,14 @@ import java.util.concurrent.BlockingQueue;
 
 public class CountExchangeService {
     private final String URL;
-    private final BlockingQueue<Connection> connectionPool;
-    public CountExchangeService(BlockingQueue<Connection> connectionPool, String URL){
-        this.connectionPool = connectionPool;
+    private final ConnectionPoolManager connectionPoolManager;
+    public CountExchangeService(ConnectionPoolManager connectionPoolManager, String URL){
+        this.connectionPoolManager = connectionPoolManager;
         this.URL = URL;
     }
     public ExchangeDTO getExchange(String baseCurCode, String targetCurCode, double amount)
             throws SQLException, InterruptedException, MyException, NotFoundException {
-        Connection conn = connectionPool.take();
+        Connection conn = connectionPoolManager.getConnection();
         try{
             conn.setAutoCommit(false);
 
